@@ -1,8 +1,7 @@
 import random
 
 class PuzzlePlane:
-    
-    empty_element = 0
+     empty_element = 0
 
     # initializes plane with shufffeled numbers from range <1,15>
     def __init__(self):
@@ -33,3 +32,13 @@ class PuzzlePlane:
     # returns index of an empty elemenet
     def empty_element_index(self):
         return self.empty_element_index
+
+
+    def move_down(self):
+
+
+    def move_up(self):
+
+    def move_right(self):
+
+    def move_left(self):
