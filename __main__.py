@@ -1,9 +1,14 @@
-from lib.model.puzzle_plane import PuzzlePlane
+from lib.model.puzzle_plane import *
 from lib.algorithm.bruteforce import bfs
 
 def main():
-    puzzle_plain = PuzzlePlane()
-    result = bfs(puzzle_plain)
-    print(result)
+    data = generate_random_array()
+    puzzle_plain = PuzzlePlane(data[0], data[1])
+    print(puzzle_plain.plane)
+    print(puzzle_plain.move_right().plane)
+    print(puzzle_plain.move_right().move_right().plane)
+    print(puzzle_plain.move_right().move_right().move_right().plane)
+    print(puzzle_plain.move_right().move_right().move_right().move_right().plane)
+    print(puzzle_plain.plane)
 
 main()
