@@ -1,29 +1,32 @@
 import random, copy
 
+"""
+    Generates a plane with size of rows x columns = size x size
+"""
 
-def generate_random_array():
+
+def generate_random_array(size):
     empty_element = 0
     plane = []
 
-    # todo: remove magic numbers
     numbers = []
-    for n in range(0, 16):
+    for n in range(0, size ** 2):
         numbers.append(n)
 
     random.shuffle(numbers)
 
     # todo: move to distinct function
     start = 0
-    begin = 4
+    begin = size
 
     # getting indices of the empty element
     empty_element_index = numbers.index(empty_element)
-    empty_element_index = [int(empty_element_index / 4), int(empty_element_index % 4)]
+    empty_element_index = [int(empty_element_index / size), int(empty_element_index % size)]
 
-    while begin <= 16:
+    while begin <= size ** 2:
         plane.append(numbers[start:begin])
-        start += 4
-        begin += 4
+        start += size
+        begin += size
     return [plane, empty_element_index]
 
 
@@ -40,6 +43,19 @@ class PuzzlePlane:
     def empty_element_index(self):
         return self.empty_element_index
 
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, PuzzlePlane):
+            return False
+
+        hsh = "".join(str(x) for x in self.plane)
+        other_hsh = "".join(str(x) for x in o.plane)
+        return hsh == other_hsh
+
+    def __hash__(self) -> int:
+        # todo: fix me
+        hsh = "".join(str(x) for x in self.plane);
+        return hash(hsh)
+
     # return a new PuzzlePlane with the whole move upward
     # if the move was not possible a copy of the original PuzzlePlane is returne
     def move_down(self):
@@ -47,7 +63,7 @@ class PuzzlePlane:
         new_empty_element_index = [0, 0]
         # rows
         # todo: bad magic numbers
-        if self.empty_element_index[0] != 3:
+        if self.empty_element_index[0] != len(self.plane) - 1:
             new_empty_element_index = [self.empty_element_index[0] + 1, self.empty_element_index[1]]
             copied_plane[self.empty_element_index[0]][self.empty_element_index[1]], \
             copied_plane[new_empty_element_index[0]][new_empty_element_index[1]] = \
@@ -75,7 +91,7 @@ class PuzzlePlane:
         new_empty_element_index = [0, 0]
         # rows
         # todo: bad magic numbers
-        if self.empty_element_index[1] != 3:
+        if self.empty_element_index[1] != len(self.plane) - 1:
             new_empty_element_index = [self.empty_element_index[0], self.empty_element_index[1] + 1]
             copied_plane[self.empty_element_index[0]][self.empty_element_index[1]], \
             copied_plane[new_empty_element_index[0]][new_empty_element_index[1]] = \
