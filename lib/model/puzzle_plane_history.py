@@ -21,27 +21,39 @@ class PuzzlePlaneHistory(PuzzlePlane):
     def move_up(self):
         puzzle_plane = self.parent.move_up()
         if puzzle_plane is not self.parent:
+            moves = copy.deepcopy(self.moves)
             # TODO Move it to some enum
-            self.moves.append("UP")
-        return PuzzlePlaneHistory(puzzle_plane, copy.deepcopy(self.moves))
+            moves.append("UP")
+            return PuzzlePlaneHistory(puzzle_plane, moves)
+        else:
+            return self
 
     def move_down(self):
         puzzle_plane = self.parent.move_down()
         if puzzle_plane is not self.parent:
-            # todo enum
-            self.moves.append("DOWN")
-        return PuzzlePlaneHistory(puzzle_plane, copy.deepcopy(self.moves))
+            moves = copy.deepcopy(self.moves)
+            # TODO Move it to some enum
+            moves.append("DOWN")
+            return PuzzlePlaneHistory(puzzle_plane, moves)
+        else:
+            return self
 
     def move_right(self):
         puzzle_plane = self.parent.move_right()
         if puzzle_plane is not self.parent:
-            # todo enum
-            self.moves.append("RIGHT")
-        return PuzzlePlaneHistory(puzzle_plane, copy.deepcopy(self.moves))
+            moves = copy.deepcopy(self.moves)
+            # TODO Move it to some enum
+            moves.append("RIGHT")
+            return PuzzlePlaneHistory(puzzle_plane, moves)
+        else:
+            return self
 
     def move_left(self):
         puzzle_plane = self.parent.move_left()
         if puzzle_plane is not self.parent:
-            # todo enum
-            self.moves.append("LEFT")
-        return PuzzlePlaneHistory(puzzle_plane, copy.deepcopy(self.moves))
+            moves = copy.deepcopy(self.moves)
+            # TODO Move it to some enum
+            moves.append("LEFT")
+            return PuzzlePlaneHistory(puzzle_plane, moves)
+        else:
+            return self
