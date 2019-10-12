@@ -1,5 +1,5 @@
 from lib.model.puzzle_plane_history import *
-import queue
+from collections import deque
 
 
 def generate_neighbour(puzzle_plane):
@@ -9,14 +9,14 @@ def generate_neighbour(puzzle_plane):
 def bfs(puzzle_plane, solved_puzzle_plane):
     puzzle_plane = PuzzlePlaneHistory(puzzle_plane)
 
-    neighbours = queue.Queue()
+    fifo = deque([])
     seed = generate_neighbour(puzzle_plane)
     for s in seed:
-        neighbours.put(s)
+        fifo.append(s)
     visited_nodes = set()
 
-    while not neighbours.empty():
-        node = neighbours.get()
+    while fifo:
+        node = fifo.popleft()
 
         if node in visited_nodes:
             continue
@@ -34,7 +34,8 @@ def bfs(puzzle_plane, solved_puzzle_plane):
         # print(node.plane)
 
         for n in new_nodes:
-            neighbours.put(n)
+            fifo.append(n)
 
     # impossible
+    print("the solution does not exist")
     return ""

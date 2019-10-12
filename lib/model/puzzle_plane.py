@@ -1,33 +1,67 @@
 import random, copy
 
-"""
-    Generates a plane with size of rows x columns = size x size
-"""
+
+def generate_ordered_puzzle_plane(row, column):
+    """
+       Creates a PuzzlePlane of a size row x column with ordered numbers in range <0, row x column)
+       :param row: numbers of rows.
+       :param column: numbers of columns.
+       :return: ordered PuzzlePlane
+       """
+    plane = []
+    size = row * column
+    empty_element_index = [0, 0]
+
+    # Generating ordered numbers list
+    numbers = []
+    for n in range(0, size):
+        numbers.append(n)
+
+    # Getting a index of an empty_element
+    start = 0
+    begin = row
+
+    # Creating a 2D plane from 1D
+    while begin <= row * column:
+        plane.append(numbers[start:begin])
+        start += row
+        begin += row
+
+    return PuzzlePlane(plane, empty_element_index)
 
 
-def generate_random_array(size):
+def generate_random_puzzle_plane(row, column):
+    """
+    Creates a PuzzlePlane of a size row x column with random shuffled numbers in range <0, row x column)
+    :param row: numbers of rows.
+    :param column: numbers of columns.
+    :return: a shuffled PuzzlePlane
+    """
     empty_element = 0
     plane = []
+    size = row * column
 
+    # Generating ordered numbers list
     numbers = []
-    for n in range(0, size ** 2):
+    for n in range(0, size):
         numbers.append(n)
 
     random.shuffle(numbers)
 
-    # todo: move to distinct function
-    start = 0
-    begin = size
-
-    # getting indices of the empty element
+    # Getting a index of an empty_element
     empty_element_index = numbers.index(empty_element)
-    empty_element_index = [int(empty_element_index / size), int(empty_element_index % size)]
+    empty_element_index = [int(empty_element_index / row), int(empty_element_index % row)]
 
-    while begin <= size ** 2:
+    start = 0
+    begin = row
+
+    # Creating a 2D plane from 1D
+    while begin <= row * column:
         plane.append(numbers[start:begin])
-        start += size
-        begin += size
-    return [plane, empty_element_index]
+        start += row
+        begin += row
+
+    return PuzzlePlane(plane, empty_element_index)
 
 
 """
@@ -37,14 +71,14 @@ def generate_random_array(size):
 
 
 class PuzzlePlane:
-    empty_element = 0
-
     """Pupulates the plane with provided data"""
     """plane is a 2D arrays numbers ranging from 0 to 15 exclusive"""
 
     def __init__(self, plane, empty_element_index):
         self.plane = plane
         self.empty_element_index = empty_element_index
+        self.row_n = len(plane)
+        self.column_n = len(plane[0])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, PuzzlePlane):
@@ -56,7 +90,7 @@ class PuzzlePlane:
 
     def __hash__(self) -> int:
         # todo: fix me
-        hsh = "".join(str(x) for x in self.plane);
+        hsh = "".join(str(x) for x in self.plane)
         return hash(hsh)
 
     """
@@ -65,7 +99,7 @@ class PuzzlePlane:
     """
 
     def move_down(self):
-        if self.empty_element_index[0] != len(self.plane) - 1:
+        if self.empty_element_index[0] != self.row_n - 1:
             moved_puzzle_plane = copy.deepcopy(self)
             new_empty_element_index = [self.empty_element_index[0] + 1, self.empty_element_index[1]]
             moved_puzzle_plane.empty_element_index = new_empty_element_index
@@ -93,7 +127,7 @@ class PuzzlePlane:
     """
 
     def move_right(self):
-        if self.empty_element_index[1] != len(self.plane) - 1:
+        if self.empty_element_index[1] != self.column_n - 1:
             moved_puzzle_plane = copy.deepcopy(self)
             new_empty_element_index = [self.empty_element_index[0], self.empty_element_index[1] + 1]
             moved_puzzle_plane.empty_element_index = new_empty_element_index
