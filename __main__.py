@@ -1,6 +1,6 @@
 from lib.model.puzzle_plane import *
 from lib.algorithm.bruteforce.bfs import bfs
-
+from lib.algorithm.bruteforce.neighbor_search_strategy import *
 
 def main():
     row, columns = 3, 3

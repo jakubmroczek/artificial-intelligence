@@ -19,6 +19,7 @@ def bfs(puzzle_plane, solved_puzzle_plane, neighbor_search_strategy=RandomNeighb
             continue
 
         visited_nodes.add(node)
+
         if node.parent == solved_puzzle_plane:
             print("znalezione")
             print(node.moves)
