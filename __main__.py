@@ -17,10 +17,9 @@ def main():
     riddle = PuzzlePlane(data[0], data[1])
     # riddle = PuzzlePlane(foo, [0, 3])
     # solution = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 0]]
-    print(solution)
+    # print(solution)
     print(riddle.plane)
     bfs(riddle, PuzzlePlane(solution, [0, 0]))
-
 
 if __name__ == '__main__':
     main()

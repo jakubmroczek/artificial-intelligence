@@ -30,6 +30,12 @@ def generate_random_array(size):
     return [plane, empty_element_index]
 
 
+"""
+    Representation of the puzzle problem domain.
+    Allows to easily move elements around.
+"""
+
+
 class PuzzlePlane:
     empty_element = 0
 
@@ -39,9 +45,6 @@ class PuzzlePlane:
     def __init__(self, plane, empty_element_index):
         self.plane = plane
         self.empty_element_index = empty_element_index
-
-    def empty_element_index(self):
-        return self.empty_element_index
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, PuzzlePlane):
@@ -56,60 +59,70 @@ class PuzzlePlane:
         hsh = "".join(str(x) for x in self.plane);
         return hash(hsh)
 
-    # return a new PuzzlePlane with the whole move upward
-    # if the move was not possible a copy of the original PuzzlePlane is returne
-    def move_down(self):
-        copied_plane = copy.deepcopy(self.plane)
-        new_empty_element_index = [0, 0]
-        # rows
-        # todo: bad magic numbers
-        if self.empty_element_index[0] != len(self.plane) - 1:
-            new_empty_element_index = [self.empty_element_index[0] + 1, self.empty_element_index[1]]
-            copied_plane[self.empty_element_index[0]][self.empty_element_index[1]], \
-            copied_plane[new_empty_element_index[0]][new_empty_element_index[1]] = \
-                copied_plane[new_empty_element_index[0]][new_empty_element_index[1]], \
-                copied_plane[self.empty_element_index[0]][self.empty_element_index[1]]
+    """
+        Moves the "hole" down, if possible and returns new PuzzlePlane.
+        Otherwise the original object is returned.
+    """
 
-        return PuzzlePlane(copied_plane, new_empty_element_index)
+    def move_down(self):
+        if self.empty_element_index[0] != len(self.plane) - 1:
+            moved_puzzle_plane = copy.deepcopy(self)
+            new_empty_element_index = [self.empty_element_index[0] + 1, self.empty_element_index[1]]
+            moved_puzzle_plane.empty_element_index = new_empty_element_index
+            return moved_puzzle_plane.swap(self.empty_element_index, new_empty_element_index)
+        else:
+            return self
+
+    """
+           Moves the "hole" up, if possible and returns new PuzzlePlane.
+           Otherwise the original object is returned.
+       """
 
     def move_up(self):
-        copied_plane = copy.deepcopy(self.plane)
-        new_empty_element_index = [0, 0]
-        # rows
-        # todo: bad magic numbers
         if self.empty_element_index[0] != 0:
+            moved_puzzle_plane = copy.deepcopy(self)
             new_empty_element_index = [self.empty_element_index[0] - 1, self.empty_element_index[1]]
-            copied_plane[self.empty_element_index[0]][self.empty_element_index[1]], \
-            copied_plane[new_empty_element_index[0]][new_empty_element_index[1]] = \
-                copied_plane[new_empty_element_index[0]][new_empty_element_index[1]], \
-                copied_plane[self.empty_element_index[0]][self.empty_element_index[1]]
+            moved_puzzle_plane.empty_element_index = new_empty_element_index
+            return moved_puzzle_plane.swap(self.empty_element_index, new_empty_element_index)
+        else:
+            return self
 
-        return PuzzlePlane(copied_plane, new_empty_element_index)
+    """
+            Moves the "hole" right, if possible and returns new PuzzlePlane.
+            Otherwise the original object is returned.
+    """
 
     def move_right(self):
-        copied_plane = copy.deepcopy(self.plane)
-        new_empty_element_index = [0, 0]
-        # rows
-        # todo: bad magic numbers
         if self.empty_element_index[1] != len(self.plane) - 1:
+            moved_puzzle_plane = copy.deepcopy(self)
             new_empty_element_index = [self.empty_element_index[0], self.empty_element_index[1] + 1]
-            copied_plane[self.empty_element_index[0]][self.empty_element_index[1]], \
-            copied_plane[new_empty_element_index[0]][new_empty_element_index[1]] = \
-                copied_plane[new_empty_element_index[0]][new_empty_element_index[1]], \
-                copied_plane[self.empty_element_index[0]][self.empty_element_index[1]]
+            moved_puzzle_plane.empty_element_index = new_empty_element_index
+            return moved_puzzle_plane.swap(self.empty_element_index, new_empty_element_index)
+        else:
+            return self
 
-        return PuzzlePlane(copied_plane, new_empty_element_index)
+    """
+            Moves the "hole" left, if possible and returns new PuzzlePlane.
+            Otherwise the original object is returned.    
+    """
 
     def move_left(self):
-        copied_plane = copy.deepcopy(self.plane)
-        new_empty_element_index = [0, 0]
-        # rows
-        # todo: bad magic numbers
         if self.empty_element_index[1] != 0:
+            moved_puzzle_plane = copy.deepcopy(self)
             new_empty_element_index = [self.empty_element_index[0], self.empty_element_index[1] - 1]
-            copied_plane[self.empty_element_index[0]][self.empty_element_index[1]], \
-            copied_plane[new_empty_element_index[0]][new_empty_element_index[1]] = \
-                copied_plane[new_empty_element_index[0]][new_empty_element_index[1]], \
-                copied_plane[self.empty_element_index[0]][self.empty_element_index[1]]
+            moved_puzzle_plane.empty_element_index = new_empty_element_index
+            return moved_puzzle_plane.swap(self.empty_element_index, new_empty_element_index)
+        else:
+            return self
 
-        return PuzzlePlane(copied_plane, new_empty_element_index)
+    """
+            Helper function for swapping elements in the PuzzlePlane.
+            Element at first_index goes under the second_index, and second_index goes under the first_index
+    """
+
+    def swap(self, first_index, second_index):
+        self.plane[first_index[0]][first_index[1]], \
+        self.plane[second_index[0]][second_index[1]] = \
+            self.plane[second_index[0]][second_index[1]], \
+            self.plane[first_index[0]][first_index[1]]
+        return self
