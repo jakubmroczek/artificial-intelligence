@@ -1,3 +1,4 @@
+from lib.model.puzzle_plane_history import *
 import queue
 
 
@@ -6,6 +7,8 @@ def generate_neighbour(puzzle_plane):
 
 
 def bfs(puzzle_plane, solved_puzzle_plane):
+    puzzle_plane = PuzzlePlaneHistory(puzzle_plane)
+
     neighbours = queue.Queue()
     seed = generate_neighbour(puzzle_plane)
     for s in seed:
@@ -19,8 +22,9 @@ def bfs(puzzle_plane, solved_puzzle_plane):
             continue
 
         visited_nodes.add(node)
-        if node == solved_puzzle_plane:
+        if node.parent == solved_puzzle_plane:
             print("znalezione")
+            print(node.moves)
             return node
 
         # move to distinct functions
