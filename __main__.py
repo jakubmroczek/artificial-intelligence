@@ -1,9 +1,10 @@
 from lib.model.puzzle_plane import *
 from lib.algorithm.bruteforce.bfs import bfs
+from lib.algorithm.bruteforce.dfs import dfs
 
 
 def main():
-    size  = 3
+    size  = 2
     solution = []
     for i in range(0, size):
         row = []
@@ -19,7 +20,10 @@ def main():
     # solution = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 0]]
     # print(solution)
     print(riddle.plane)
+    # bfs(riddle, PuzzlePlane(solution, [0, 0]))
+    dfs(riddle, PuzzlePlane(solution, [0, 0]))
     bfs(riddle, PuzzlePlane(solution, [0, 0]))
+
 
 if __name__ == '__main__':
     main()

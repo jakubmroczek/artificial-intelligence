@@ -1,22 +1,21 @@
 from lib.model.puzzle_plane_history import *
-import queue
 
-
+#todo code duplication as in bs
 def generate_neighbour(puzzle_plane):
     return [puzzle_plane.move_down(), puzzle_plane.move_left(), puzzle_plane.move_up(), puzzle_plane.move_right()]
 
 
-def bfs(puzzle_plane, solved_puzzle_plane):
+def dfs(puzzle_plane, solved_puzzle_plane):
     puzzle_plane = PuzzlePlaneHistory(puzzle_plane)
 
-    neighbours = queue.Queue()
+    stack = []
     seed = generate_neighbour(puzzle_plane)
     for s in seed:
-        neighbours.put(s)
+        stack.append(s)
     visited_nodes = set()
 
-    while not neighbours.empty():
-        node = neighbours.get()
+    while stack:
+        node = stack.pop()
 
         if node in visited_nodes:
             continue
@@ -31,10 +30,8 @@ def bfs(puzzle_plane, solved_puzzle_plane):
         new_nodes = generate_neighbour(node)
         new_nodes = [n for n in new_nodes if n not in visited_nodes]
 
-        # print(node.plane)
-
         for n in new_nodes:
-            neighbours.put(n)
+            stack.append(n)
 
     # impossible
     return ""
