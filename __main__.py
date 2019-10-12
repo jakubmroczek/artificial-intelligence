@@ -3,7 +3,7 @@ from lib.algorithm.bruteforce.bfs import bfs
 
 
 def main():
-    row, columns = 4, 3
+    row, columns = 3, 3
     riddle = generate_random_puzzle_plane(row, columns)
     solution = generate_ordered_puzzle_plane(row, columns)
     print(riddle.plane)
@@ -11,6 +11,7 @@ def main():
     print(solution.plane)
     print(solution.empty_element_index)
     bfs(riddle, solution)
+
 
 if __name__ == '__main__':
     main()
