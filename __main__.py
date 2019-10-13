@@ -1,7 +1,18 @@
+from itertools import permutations
+
+from lib.algorithm.bruteforce.dfs import dfs
 from lib.model.puzzle_plane import *
 from lib.algorithm.bruteforce.bfs import bfs
-from lib.algorithm.bruteforce.neighbor_search_strategy import *
+from lib.algorithm.bruteforce.neighbor_search_strategy import RandomNeighborSearchStrategy, \
+    StrictNeighborSearchStrategy, Move
 import argparse
+
+
+def create_neighbors_visiting_strategy(key):
+    if key == "R":
+        return RandomNeighborSearchStrategy()
+    else:
+        return StrictNeighborSearchStrategy([Move[s] for s in list(key)])
 
 
 def cli():
@@ -11,8 +22,11 @@ def cli():
                                                                     "auto generated")
 
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("-b", "--bfs", help="", action="store_true")
-    group.add_argument("-d", "--dfs", help="")
+    # TODO code duplication here, and the default equals to R is a magic constant
+    allowed_order = ["".join(p) for p in permutations("DULR")].append("R")
+    group.add_argument("-b", "--bfs", help="", type=str, choices=allowed_order)
+    group.add_argument("-d", "--dfs", help="", type=str, choices=allowed_order)
+    group.add_argument("-i", "--idfs", help="", type=str, choices=allowed_order)
 
     parser.add_argument("rows", type=int, help="the number of rows in the puzzle plane")
     parser.add_argument("columns", type=int, help="the number of columns in the puzzle plane")
@@ -23,17 +37,19 @@ def cli():
         riddle = generate_random_puzzle_plane(args.rows, args.columns)
         print(riddle.plane)
     else:
-        riddle = []
         raise Exception("implement user provided riddle")
 
     solution = generate_ordered_puzzle_plane(args.rows, args.columns)
     if args.bfs:
-        result = bfs(riddle, solution)
+        result = bfs(riddle, solution, create_neighbors_visiting_strategy(args.bfs))
         print(len(result.moves))
         print(result.moves)
     elif args.dfs:
-        result = dfs(riddle, solution)
-        print(result)
+        result = dfs(riddle, solution, create_neighbors_visiting_strategy(args.dfs))
+        print(len(result.moves))
+        print(result.moves)
+    elif args.idfs:
+        print("idfs")
 
 
 if __name__ == '__main__':

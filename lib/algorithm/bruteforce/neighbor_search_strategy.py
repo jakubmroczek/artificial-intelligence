@@ -1,6 +1,6 @@
 from abc import ABC
-from enum import Enum
 import random
+from enum import Enum
 
 
 class NeighborSearchStrategy(ABC):
@@ -17,18 +17,23 @@ class RandomNeighborSearchStrategy(NeighborSearchStrategy):
         return neighbors
 
 
+# todo: no one usess it, it is internal dependency of the StrictNeighborSearch class. move it there
 class Move(Enum):
-    UP = 0,
-    DOWN = 1,
-    LEFT = 2,
-    RIGHT = 3
+    # Up
+    U = 'U',
+    # Down
+    D = 'D',
+    # Left
+    L = 'L',
+    # Right
+    R = 'R'
 
 
 class StrictNeighborSearchStrategy(NeighborSearchStrategy):
-    transforms = {Move.UP: lambda puzzle_plain: puzzle_plain.move_up(),
-                  Move.DOWN: lambda puzzle_plain: puzzle_plain.move_down(),
-                  Move.LEFT: lambda puzzle_plain: puzzle_plain.move_left(),
-                  Move.RIGHT: lambda puzzle_plain: puzzle_plain.move_right()}
+    transforms = {Move.U: lambda puzzle_plain: puzzle_plain.move_up(),
+                  Move.D: lambda puzzle_plain: puzzle_plain.move_down(),
+                  Move.L: lambda puzzle_plain: puzzle_plain.move_left(),
+                  Move.R: lambda puzzle_plain: puzzle_plain.move_right()}
 
     """
         Pass here a list of moves e.g UP, DOWN, LEFT, RIGHT to follow
@@ -39,4 +44,4 @@ class StrictNeighborSearchStrategy(NeighborSearchStrategy):
         self.order = order
 
     def neighbors(self, puzzle_plane):
-        return map(lambda move : self.transforms.get(move)(puzzle_plane), self.order)
+        return map(lambda move: self.transforms.get(move)(puzzle_plane), self.order)
