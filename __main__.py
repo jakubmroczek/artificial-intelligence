@@ -1,6 +1,7 @@
 from itertools import permutations
 
 from lib.algorithm.bruteforce.dfs import dfs
+from lib.algorithm.bruteforce.idfs import idfs
 from lib.model.puzzle_plane import *
 from lib.algorithm.bruteforce.bfs import bfs
 from lib.algorithm.bruteforce.neighbor_search_strategy import RandomNeighborSearchStrategy, \
@@ -12,8 +13,9 @@ def create_neighbors_visiting_strategy(key):
     if key == "R":
         return RandomNeighborSearchStrategy()
     else:
-        return StrictNeighborSearchStrategy([Move[s] for s in list(key)])
-
+        #todo: fix me!
+        # return StrictNeighborSearchStrategy([Move[s] for s in list(key)])
+        return RandomNeighborSearchStrategy()
 
 def cli():
     parser = argparse.ArgumentParser(description="solve fifteen puzzle riddle using various techniques")
@@ -49,7 +51,12 @@ def cli():
         print(len(result.moves))
         print(result.moves)
     elif args.idfs:
-        print("idfs")
+        #does not work yet
+        result = idfs(riddle, solution, create_neighbors_visiting_strategy(args.dfs))
+        # result can be of type None, or PuzzlePlaneHistory, so this should be unified
+        if result:
+            print(len(result.moves))
+            print(result.moves)
 
 
 if __name__ == '__main__':
