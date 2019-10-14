@@ -51,12 +51,9 @@ def cli():
         print(len(result.moves))
         print(result.moves)
     elif args.idfs:
-        #does not work yet
-        result = idfs(riddle, solution, create_neighbors_visiting_strategy(args.dfs))
-        # result can be of type None, or PuzzlePlaneHistory, so this should be unified
-        if result:
-            print(len(result.moves))
-            print(result.moves)
+        result = idfs(riddle, solution, create_neighbors_visiting_strategy(args.idfs))
+        print(len(result.moves))
+        print(result.moves)
 
 
 if __name__ == '__main__':

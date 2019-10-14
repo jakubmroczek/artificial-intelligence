@@ -8,22 +8,22 @@ def idfs(puzzle_plane, solved_puzzle_plane, neighbor_search_strategy=RandomNeigh
     Iterative deepening DFS.
     :param puzzle_plane: shuffled puzzle plane.
     :param solved_puzzle_plane: the puzzle plane to be transformed from the shuffled one.
-    :param neighbor_search_strategy: a strategy which determines the order in which neighbors are visted.
+    :param neighbor_search_strategy: a strategy which determines the order in which neighbors are visited.
     """
-    print(max_depth(puzzle_plane))
     depth = max_depth(puzzle_plane)
     puzzle_plane = PuzzlePlaneHistory(puzzle_plane)
     for i in range(0, depth + 1):
         result = dls(puzzle_plane, solved_puzzle_plane, i, neighbor_search_strategy)
         if result:
             return result
+    return PuzzlePlaneHistory(puzzle_plane)
 
 
 def dls(puzzle_plane, solved_puzzle_plane, depth, neighbor_search_strategy=RandomNeighborSearchStrategy()):
-    print(puzzle_plane.parent.plane)
-    if puzzle_plane == solved_puzzle_plane:
-        #todo: .parent destroys the Liskov principle, imporve __eq__ int PuzzlePlaneHistory
-        return puzzle_plane.parent == solved_puzzle_plane
+    # todo: this comparison is dummy and shows that puzzle_plane is not the same as solved_puzzle_plane
+    # todo: improve __eq__ opeartor PuzzlePlane history
+    if puzzle_plane.parent == solved_puzzle_plane:
+        return puzzle_plane
 
     if depth == 0:
         return None
