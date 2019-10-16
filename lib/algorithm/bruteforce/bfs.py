@@ -12,7 +12,6 @@ def bfs(puzzle_plane, solved_puzzle_plane, neighbor_search_strategy=RandomNeighb
 
     while fifo:
         node = fifo.popleft()
-
         if node in visited_nodes:
             continue
 

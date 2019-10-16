@@ -54,6 +54,9 @@ def cli():
         result = idfs(riddle, solution, create_neighbors_visiting_strategy(args.idfs))
         print(len(result.moves))
         print(result.moves)
+        result = bfs(riddle, solution, create_neighbors_visiting_strategy(args.idfs))
+        print(len(result.moves))
+        print(result.moves)
 
 
 if __name__ == '__main__':
