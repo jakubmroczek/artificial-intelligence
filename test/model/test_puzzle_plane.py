@@ -3,6 +3,18 @@ from lib.model.puzzle_plane import PuzzlePlane
 
 
 class TestPuzzlePlane(unittest.TestCase):
+    def test_eq(self):
+        left = PuzzlePlane([[7, 0, 4], [6, 3, 5], [8, 1, 2]], [0, 1])
+        right = PuzzlePlane([[7, 0, 4], [6, 3, 5], [8, 1, 2]], [0, 1])
+
+        self.assertTrue(left == right)
+
+    def test_not_eq(self):
+        left = PuzzlePlane([[0, 7, 4], [6, 3, 5], [8, 1, 2]], [0, 0])
+        right = PuzzlePlane([[7, 0, 4], [6, 3, 5], [8, 1, 2]], [0, 1])
+
+        self.assertFalse(left == right)
+
     def test_move_up_with_zero_in_top(self):
         plane = [[7, 0, 4], [6, 3, 5], [8, 1, 2]]
         empty_element_index = [0, 1]

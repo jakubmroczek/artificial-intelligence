@@ -4,6 +4,19 @@ from lib.model.puzzle_plane_history import PuzzlePlaneHistory
 
 
 class TestPuzzlePlaneHistory(unittest.TestCase):
+    def test_eq(self):
+        left = PuzzlePlaneHistory(PuzzlePlane([[7, 0, 4], [6, 3, 5], [8, 1, 2]], [0, 1]))
+        right = PuzzlePlaneHistory(PuzzlePlane([[7, 0, 4], [6, 3, 5], [8, 1, 2]], [0, 1]))
+
+        self.assertTrue(left == right)
+
+    def test_not_eq(self):
+        left = PuzzlePlaneHistory(PuzzlePlane([[0, 7, 4], [6, 3, 5], [8, 1, 2]], [0, 0]))
+        right = PuzzlePlaneHistory(PuzzlePlane([[7, 0, 4], [6, 3, 5], [8, 1, 2]], [0, 1]))
+
+        self.assertFalse(left == right)
+
+
     def test_move_up_with_zero_in_top(self):
         plane = [[7, 0, 4], [6, 3, 5], [8, 1, 2]]
         empty_element_index = [0, 1]
@@ -75,7 +88,7 @@ class TestPuzzlePlaneHistory(unittest.TestCase):
         self.assertEqual([[7, 3, 4], [6, 1, 5], [8, 0, 2]], sut.parent.plane)
         self.assertEqual([2, 1], sut.parent.empty_element_index)
         self.assertEqual(sut.moves, [])
-        
+
     def test_move_left_with_zero_on_left(self):
         plane = [[0, 3, 4], [6, 1, 5], [8, 7, 2]]
         empty_element_index = [0, 0]
@@ -147,4 +160,3 @@ class TestPuzzlePlaneHistory(unittest.TestCase):
         self.assertEqual([[3, 0, 4], [6, 1, 5], [8, 7, 2]], sut.parent.plane)
         self.assertEqual([0, 1], sut.parent.empty_element_index)
         self.assertEqual(sut.moves, ["RIGHT"])
-
