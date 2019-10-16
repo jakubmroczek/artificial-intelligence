@@ -13,9 +13,10 @@ def create_neighbors_visiting_strategy(key):
     if key == "R":
         return RandomNeighborSearchStrategy()
     else:
-        #todo: fix me!
+        # todo: fix me!
         # return StrictNeighborSearchStrategy([Move[s] for s in list(key)])
         return RandomNeighborSearchStrategy()
+
 
 def cli():
     parser = argparse.ArgumentParser(description="solve fifteen puzzle riddle using various techniques")
@@ -25,7 +26,9 @@ def cli():
 
     group = parser.add_mutually_exclusive_group()
     # TODO code duplication here, and the default equals to R is a magic constant
-    allowed_order = ["".join(p) for p in permutations("DULR")].append("R")
+    allowed_order = ["".join(p) for p in permutations("DULR")]
+    allowed_order.append("R")
+
     group.add_argument("-b", "--bfs", help="", type=str, choices=allowed_order)
     group.add_argument("-d", "--dfs", help="", type=str, choices=allowed_order)
     group.add_argument("-i", "--idfs", help="", type=str, choices=allowed_order)
